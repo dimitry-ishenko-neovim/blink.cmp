@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://github.com/Saghen/blink.cmp
+Upstream-Name: blink.cmp
+Upstream-Contact: Liam Dyer <liamcdyer@gmail.com>
+
+Files: *
+Copyright: 2024, Liam Dyer
+License: Expat
+
+Files: debian/*
+Copyright: 2025, Dimitry Ishenko <dimitry.ishenko@gmail.com>
+License: GPL-2+

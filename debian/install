@@ -1,0 +1,2 @@
+doc lua plugin usr/share/blink.cmp
+debian/blink.cmp.lua etc/skel/.config/nvim/plugin

@@ -1,0 +1,23 @@
+Source: blink.cmp
+Section: editors
+Priority: optional
+Maintainer: Dimitry Ishenko <dimitry.ishenko@gmail.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-vim-addon,
+Standards-Version: 4.6.2
+Homepage: https://cmp.saghen.dev
+Vcs-Browser: https://github.com/dimitry-ishenko-neovim/blink.cmp
+Vcs-Git: https://github.com/dimitry-ishenko-neovim/blink.cmp.git
+
+Package: blink.cmp
+Architecture: all
+Depends:
+ ${misc:Depends},
+ neovim (>= 0.10.0),
+Description: Performant, batteries-included completion plugin for neovim
+ blink.cmp is a completion plugin with support for LSPs, cmdline, signature
+ help and snippets. It uses an optional custom fuzzy matcher for typo
+ resistance. It provides extensibility via pluggable sources (LSP, buffer,
+ snippets, etc), component based rendering and dynamic configuration.
