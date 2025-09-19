@@ -1,5 +1,199 @@
-blink.cmp (1.7.0-1) UNRELEASED; urgency=medium
+blink.cmp (1.7.0-1) unstable; urgency=medium
 
-  * Initial release.
+  [ Dimitry Ishenko ]
+  * Add Debian packaging
 
- -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Thu, 18 Sep 2025 16:56:20 -0400
+  [ Liam Dyer ]
+  * chore: bump version to 1.7.0
+  * fix: `:BlinkCmp build` working directory
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Liam Dyer ]
+  * feat: `completion.menu.auto_show_delay_ms` option
+  * feat: add `:BlinkCmp build` and `:BlinkCmp build-log` commands
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Liam Dyer ]
+  * feat: append-only frecency database, drop LMDB (#2136)
+
+  [ Devin Neal ]
+  * fix: add `svelte` to `javascript` auto-brackets `import` exception
+    (#2152)
+
+  [ Liam Dyer ]
+  * fix: disable frecency writing when not enabled
+  * fix: prevent out of bounds scrollbar position
+  * chore: bump all dependencies
+
+  [ L3MON4D3 ]
+  * feat(luasnip): pass matched part of trigger to luasnip. (#2132)
+
+  [ François Fleur ]
+  * perf(cmdline): reduce spurious cursor and char events (#1953)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Liam Dyer ]
+  * refactor: misc snippet source cleanup
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Felipe Lema ]
+  * feat: add `snippets.preset = 'vsnip'` (#2110)
+
+  [ Liam Dyer ]
+  * chore: bump heed to 0.22.0
+
+  [ soifou ]
+  * docs: update vimdocs
+
+  [ Soifou ]
+  * docs: add missing `count` option for `select_next|prev` actions
+
+  [ soifou ]
+  * docs: update vimdocs
+
+  [ Soifou ]
+  * feat(keymap): add `jump_by` option to navigate by item property
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Liam Dyer ]
+  * docs: note rust implementation supports unicode fully
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Ahmet Arda Kavakcı ]
+  * docs(recipes): Add "mini.icons + lspkind" combination to recipes.md
+    (#2121)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ François Fleur ]
+  * feat(fuzzy): make frecency database path configurable (#2061)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ xieyonn ]
+  * feat(snippets): add option
+    `sources.providers.snippets.opts.use_label_description` (#2094)
+
+  [ François Fleur ]
+  * feat(cmdline): handle ex special characters and filename modifiers
+    (#2074)
+
+  [ Soifou ]
+  * fix(cmdline): translate mappings for use with `:map`
+  * fix(cmdline): support wildcard completion in `file`
+  * fix: use table.concat instead of vim.fn.join for provider list
+  * chore: remove unused import
+
+  [ soifou ]
+  * docs: update vimdocs
+
+  [ Soifou ]
+  * fix(keymap): add fallback action to <C-y> mapping
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ xieyonn ]
+  * docs: add `blink-cmp-dat-word` to community sources (#2082)
+
+  [ Soifou ]
+  * fix(cmdline): respect `wildignore` during command-line completion
+
+  [ soifou ]
+  * docs: update vimdocs
+
+  [ Soifou ]
+  * docs: clarify `completion.list` section
+
+  [ Liam Dyer ]
+  * perf(snippets): fix previous attempt at caching snippet lazy vars
+
+  [ Soifou ]
+  * fix(keymap): accept completion when only one item remains
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ François Fleur ]
+  * feat(keymap): add fallback action to <C-e> mapping (#2064)
+
+  [ Liam Dyer ]
+  * perf(snippets): cache lazy vars when expanding vars
+
+  [ François Fleur ]
+  * fix(fuzzy): check shared lib existence before skipping download
+    (#2055)
+  * feat(brackets): add css pseudo-class exceptions (#2054)
+  * fix(ghost_text): validate buffer before redraw to prevent errors
+    (#2050)
+  * fix(window): clamp highlights to prevent overflow beyond text bounds
+    (#2049)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Brian Tran ]
+  * feat: `scroll_signature_up/down` keymap commands (#2057)
+
+  [ Liam Dyer ]
+  * revert: Move runtime inputs to derivation args and add libiconv for
+    macOS compatibility (#1993)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ aldur ]
+  * docs: friendly-snippets section (#2041)
+
+  [ Liam Dyer ]
+  * fix: libc detection failing on shorter triples
+  * feat: remove `item.documentation.render`
+
+  [ 林玮 (Jade Lin) ]
+  * fix: Move runtime inputs to derivation args and add libiconv for
+    macOS compatibility (#1993)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ flashios09 ]
+  * feat: add `snippet_indicator` option #2034 (#2038)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ François Fleur ]
+  * feat: add `show_and_insert_or_accept_single` keymap, set as `<Tab>`
+    in cmdline (#2037)
+
+  [ Micah Halter ]
+  * fix(presets): add missing `cmdline` preset to hide completion on
+    `<End>` (#2030)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ João Sá ]
+  * docs: fix multi-line ghost text recipe (#2029)
+
+  [ Saghen ]
+  * docs: update vimdocs
+
+  [ Liam Dyer ]
+  * docs: fix buffer option descriptions
+
+ -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Thu, 18 Sep 2025 20:33:38 -0400
