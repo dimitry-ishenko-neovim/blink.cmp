@@ -1,3 +1,9 @@
+blink.cmp (1.7.0-2) unstable; urgency=medium
+
+  * Auto-show documentation
+
+ -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Thu, 18 Sep 2025 21:18:18 -0400
+
 blink.cmp (1.7.0-1) unstable; urgency=medium
 
   [ Dimitry Ishenko ]
