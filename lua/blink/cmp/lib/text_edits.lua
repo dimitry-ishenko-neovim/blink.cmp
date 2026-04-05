@@ -23,11 +23,18 @@ function text_edits.apply(text_edit, additional_text_edits)
     local all_edits = utils.shallow_copy(additional_text_edits)
     table.insert(all_edits, text_edit)
 
-    -- preserve 'buflisted' state because vim.lsp.util.apply_text_edits forces it to true
     local cur_bufnr = vim.api.nvim_get_current_buf()
-    local prev_buflisted = vim.bo[cur_bufnr].buflisted
+    local buf = vim.bo[cur_bufnr]
+    local prev_buflisted = buf.buflisted
     vim.lsp.util.apply_text_edits(all_edits, cur_bufnr, 'utf-8')
-    vim.bo[cur_bufnr].buflisted = prev_buflisted
+
+    -- FIXME: vim.lsp.util.apply_text_edits unconditionally forces buflisted=true.
+    -- We try to restore the original state for unlisted ones, but this can cause side effects (window close/resize).
+    -- Current workaround: Skip restoring for known problematic filetypes.
+    -- Side effect: Those buffers may appear in the bufferline unexpectedly.
+    -- TODO: Remove once https://github.com/neovim/neovim/issues/37832 fixed
+    local skip_fts = { gitcommit = true, ['dap-repl'] = true }
+    if not prev_buflisted and not skip_fts[buf.filetype] then buf.buflisted = false end
   end
 
   if mode == 'cmdline' then
@@ -196,7 +203,9 @@ end
 --- @param item blink.cmp.CompletionItem
 --- TODO: doesnt work when the item contains characters not included in the context regex
 function text_edits.guess(item)
-  local word = item.insertText or item.label
+  local word = (utils.is_not_nil(item.insertText) and item.insertText)
+    or (utils.is_not_nil(item.label) and item.label)
+    or nil
 
   local start_col, end_col = require('blink.cmp.fuzzy').guess_edit_range(
     item,
@@ -219,13 +228,16 @@ end
 --- Clamps the range to the bounds of their respective lines
 --- @param range lsp.Range
 --- @return lsp.Range
---- TODO: clamp start and end lines
 function text_edits.clamp_range_to_bounds(range)
   range = vim.deepcopy(range)
 
+  local line_count = vim.api.nvim_buf_line_count(0)
+
+  range.start.line = math.min(math.max(range.start.line, 0), line_count - 1)
   local start_line = context.get_line(range.start.line)
   range.start.character = math.min(math.max(range.start.character, 0), #start_line)
 
+  range['end'].line = math.min(math.max(range['end'].line, 0), line_count - 1)
   local end_line = context.get_line(range['end'].line)
   range['end'].character = math.min(
     math.max(range['end'].character, range.start.line == range['end'].line and range.start.character or 0),
@@ -304,7 +316,7 @@ end
 
 --- Other plugins may use feedkeys to switch modes, with `i` set. This would
 --- cause neovim to run those feedkeys first, potentially causing our <C-x><C-z> to run
---- in the wrong mode. I.e. if the plugin runs `<Esc>v` (luasnip)
+--- in the wrong mode, e.g. if the plugin runs `<Esc>v` (luasnip)
 ---
 --- In normal and visual mode, these keys cause neovim to go to the background
 --- so we create our own mapping that only runs `<C-x><C-z>` if we're in insert mode
@@ -372,7 +384,7 @@ function text_edits.write_to_dot_repeat(text_edit)
         col = 0,
         noautocmd = true,
       })
-      vim.api.nvim_buf_set_text(0, 0, 0, 0, 0, { '_' .. string.rep('a', chars_to_delete) })
+      vim.api.nvim_buf_set_text(buf, 0, 0, 0, 0, { '_' .. string.rep('a', chars_to_delete) })
       vim.api.nvim_win_set_cursor(0, { 1, chars_to_delete + 1 })
 
       -- emulate builtin completion (dot repeat)

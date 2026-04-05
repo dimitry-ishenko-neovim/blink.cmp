@@ -33,6 +33,14 @@ jobs:
           - os: ubuntu-latest
             target: aarch64-linux-android
             artifact_name: target/aarch64-linux-android/release/libblink_cmp_fuzzy.so
+          # FreeBSD
+          - os: ubuntu-latest
+            target: x86_64-unknown-freebsd
+            artifact_name: target/x86_64-unknown-freebsd/release/libblink_cmp_fuzzy.so
+          - os: ubuntu-latest
+            target: aarch64-unknown-freebsd
+            artifact_name: target/aarch64-unknown-freebsd/release/libblink_cmp_fuzzy.so
+            build_std: true
 
           ## macOS builds
           - os: macos-latest
@@ -46,29 +54,32 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             artifact_name: target/x86_64-pc-windows-msvc/release/blink_cmp_fuzzy.dll
+          - os: windows-latest
+            target: aarch64-pc-windows-msvc
+            artifact_name: target/aarch64-pc-windows-msvc/release/blink_cmp_fuzzy.dll
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
-      - name: Set Rust toolchain
-        if: contains(matrix.target, 'linux')
-        # https://github.com/rust-cross/cargo-zigbuild/issues/327
-        run: echo -e '[toolchain]\nchannel = "nightly-2025-02-19"' > rust-toolchain.toml
-
       - name: Install Rust
+        shell: bash
         run: |
-          # https://github.com/rust-cross/cargo-zigbuild/issues/327
-          rustup toolchain install nightly-2025-02-19
-          rustup default nightly-2025-02-19
-          rustup target add ${{ matrix.target }}
+          if [ -z "${{ matrix.build_std }}" ] || [ "${{ matrix.build_std }}" = "false" ]; then
+            rustup toolchain install stable
+            rustup default stable
+            rustup target add ${{ matrix.target }}
+          else
+            rustup toolchain install nightly
+            rustup default nightly
+          fi
 
       - name: Build for Linux
         if: contains(matrix.os, 'ubuntu')
         run: |
           cargo install cross --git https://github.com/cross-rs/cross
-          cross build --release --target ${{ matrix.target }}
+          cross build --release --target ${{ matrix.target }} ${{ matrix.build_std && '-Z build-std' || '' }}
           mv "${{ matrix.artifact_name }}" "${{ matrix.target }}.so"
 
       - name: Build for macOS
@@ -85,20 +96,74 @@ jobs:
           mv "${{ matrix.artifact_name }}" "${{ matrix.target }}.dll"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.target }}
           path: ${{ matrix.target }}.*
 
+  build-openbsd:
+    name: Build ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-openbsd
+            arch: x86_64
+          - target: aarch64-unknown-openbsd
+            arch: arm64
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Build on OpenBSD/${{ matrix.arch }}
+        uses: cross-platform-actions/action@v0.32.0
+        with:
+          operating_system: openbsd
+          architecture: ${{ matrix.arch }}
+          version: '7.8'
+          memory: 4G
+          shell: sh
+          sync_files: true  # Sync files between runner/VM in both directions
+          run: |
+            sudo pkg_add git rust
+            echo "### OS infos"
+            uname -a
+            git config --global --add safe.directory .
+            echo "### Rust infos"
+            rustc -vV
+            cargo -vV
+            echo "### Build fuzzy matcher with rustc"
+            cargo build --release
+            printf "\n### ls -l target/release/\n"
+            ls -l target/release/
+
+      - name: Infos on runner after build
+        run: |
+          echo "### target/release/ files on runner"
+          ls -l target/release/
+          file target/release/libblink_cmp_fuzzy.so
+          echo "### Copy file for artifact"
+          cp -v target/release/libblink_cmp_fuzzy.so "${{ matrix.target }}.so"
+
+      - name: Upload artifacts for OpenBSD/${{ matrix.arch }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.target }}
+          path: "${{ matrix.target}}.so"
+          if-no-files-found: error
+
   release:
     name: Release
-    needs: build
+    needs: [build, build-openbsd]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
 
       - name: Generate checksums
         run: |
@@ -123,12 +188,12 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
           fetch-depth: 0
           fetch-tags: true
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
 
       - name: Build
         run: npm ci && npm run build:release

@@ -1,4 +1,5 @@
 local highlight_ns = require('blink.cmp.config').appearance.highlight_ns
+local utils = require('blink.cmp.lib.utils')
 
 local docs = {}
 
@@ -19,7 +20,8 @@ local docs = {}
 --- @param opts blink.cmp.RenderDetailAndDocumentationOpts
 function docs.render_detail_and_documentation(opts)
   local detail_lines = {}
-  local details = type(opts.detail) == 'string' and { opts.detail } or opts.detail or {}
+  local details = utils.is_not_nil(opts.detail) and (type(opts.detail) == 'string' and { opts.detail } or opts.detail)
+    or {}
   --- @cast details string[]
   details = require('blink.cmp.lib.utils').deduplicate(details)
   for _, v in ipairs(details) do
@@ -27,7 +29,7 @@ function docs.render_detail_and_documentation(opts)
   end
 
   local doc_lines = {}
-  if opts.documentation ~= nil then
+  if type(opts.documentation) == 'string' or type(opts.documentation) == 'table' then
     local doc = opts.documentation
     if type(opts.documentation) == 'string' then doc = { kind = 'plaintext', value = opts.documentation } end
     vim.lsp.util.convert_input_to_markdown_lines(doc, doc_lines)
@@ -42,7 +44,9 @@ function docs.render_detail_and_documentation(opts)
   -- skip original separator in doc_lines, so we can highlight it later
   vim.list_extend(combined_lines, doc_lines, doc_already_has_separator and 2 or 1)
 
+  vim.api.nvim_set_option_value('modifiable', true, { buf = opts.bufnr })
   vim.api.nvim_buf_set_lines(opts.bufnr, 0, -1, true, combined_lines)
+  vim.api.nvim_set_option_value('modifiable', false, { buf = opts.bufnr })
   vim.api.nvim_set_option_value('modified', false, { buf = opts.bufnr })
 
   -- Highlight with treesitter

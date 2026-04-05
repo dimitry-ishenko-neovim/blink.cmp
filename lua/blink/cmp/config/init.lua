@@ -122,6 +122,9 @@ end
 --- Overrides
 
 function M.enabled()
+  -- disable in macros
+  if vim.fn.reg_recording() ~= '' or vim.fn.reg_executing() ~= '' then return false end
+
   if vim.api.nvim_get_mode().mode == 'c' or vim.fn.win_gettype() == 'command' then return config.cmdline.enabled end
   if vim.api.nvim_get_mode().mode == 't' then return config.term.enabled end
 
@@ -136,7 +139,7 @@ function M.enabled()
   if vim.b.completion == false then return false end
 
   -- Exceptions
-  if user_enabled and vim.bo.filetype == 'dap-repl' then return true end
+  if user_enabled and (vim.bo.filetype == 'dap-repl' or vim.startswith(vim.bo.filetype, 'dapui_')) then return true end
 
   return user_enabled and vim.bo.buftype ~= 'prompt' and vim.b.completion ~= false
 end
