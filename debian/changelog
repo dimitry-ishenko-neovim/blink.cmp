@@ -1,3 +1,9 @@
+blink.cmp (1.10.2-2) unstable; urgency=medium
+
+  * Fix plugin name
+
+ -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Sat, 04 Apr 2026 22:18:45 -0400
+
 blink.cmp (1.10.2-1) unstable; urgency=medium
 
   [ Dimitry Ishenko ]
