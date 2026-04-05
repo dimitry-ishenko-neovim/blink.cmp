@@ -1,3 +1,322 @@
+blink.cmp (1.10.2-1) unstable; urgency=medium
+
+  [ Dimitry Ishenko ]
+  * blink.cmp => neovim-blink-cmp
+  * d/copyright: update years
+  * d/install: default config belongs in neovim-meta
+  * Merge tag 'v1.10.2' into debian
+
+  [ Liam Dyer ]
+  * chore: bump version to 1.10.2
+  * chore: bump frizbee to 0.9.0
+  * feat: use lto for release builds
+  * feat: use `codegen-units = 1` for release builds
+  * fix: more instances of vim.NIL on lsp items
+  * chore: bump version to 1.10.1
+  * fix: os should be system_info (#2445)
+  * chore: bump version to 1.10.0
+  * refactor: move undo preview clearing to show emitter handler
+  * fix: hide event receiving empty context
+  * fix: clear context and items on hide from list
+  * fix: completion items after applying preview breaking fuzzy matching
+  * docs: put icon recipes in collapsible sections
+  * docs: add recipe for mini.icons with file types
+  * fix: guard against unsupported system for checksum
+  * chore: bump frizbee version in Cargo.toml for clarity
+  * fix: disable auto brackets for objective-c/objective-c++
+  * chore: bump frizbee to 0.8.3
+  * ci: add arm64 windows build (#2421)
+  * fix: race with no auto show delay, document bug
+  * chore: bump version to 1.9.1
+  * docs: fix changelog repo links
+  * chore(nix): update flake.lock
+  * chore: bump version to 1.9.0
+  * chore: bump frizbee to 0.7.0 to fix nightly build
+  * feat(cmdline): match neovim's select behavior for S-Tab (#2313)
+  * fix(keymap): assert description defined before checking if fallback
+  * fix(keymap): infinite recursion on fallback
+  * chore: bump version to 1.8.0
+  * chore: bump frizbee to 0.6.0
+  * fix: injected per-filetype providers not inheriting default
+    providers
+  * fix: disable in macros
+  * ci: unpin rust nightly version
+  * perf(path): drop unused stat calls
+  * docs(fuzzy): `sorts` as function returning table
+  * perf(path): limit max entries per directory to 5000
+  * docs: drop duplicate/unmaintained blink.compat section
+  * docs: add `min_keyword_length` manual trigger example
+  * docs: clarification in `add_filetype_source` docs
+  * chore: drop deprecated `cmp.add_provider` API
+  * docs: improve `add_source_provider` and `add_filetype_source` docs
+
+  [ Max ]
+  * fix: also add gap to width for empty columns
+  * feat: add option to make components in column non-operlapping
+  * feat: added alignment option to columns
+
+  [ Soifou ]
+  * fix: skip selection logic for gone context instead of stale
+  * perf(cmdline): compute range offset once
+  * fix(lsp): handle remaining vim.NIL in LSP responses for nvim 0.12
+  * refactor(cmdline): tidy up utils and cache regex
+  * refactor(cmdline): move helpers to dedicated module
+  * fix: handle vim.NIL in lsp labelDetails fields
+  * fix(cmdline): improve guard for nvim_parse_cmd on incomplete input
+  * feat(cmdline): add & as trigger character for option access
+  * fix: skip restoring buflisted for problematic filetypes
+  * fix: treat `<C-h>` as backspace in buffer events
+  * fix(cmdline): guard against `nvim_parse_cmd` errors for incomplete
+    expr
+  * chore: fix format
+  * fix(cmdline): support complex `v:lua` expression
+  * docs: reorganize and expand community sources list
+  * perf(cmdline): optimize ex search command lookups
+  * refactor: minor code cleanup
+  * fix(context): include missing line field in get_bounds return value
+  * fix(provider): prevent E5560 errors during fast events
+  * fix(plugin): guard against nil vim.lsp.config['*']
+  * feat(keymap): allow scrolling signature window while in snippets
+  * fix(signature): use `win:set_height` when updating position
+  * refactor(window): simplify positioning logic for documentation
+  * fix: explicitly target temp buffer in dot-repeat
+  * docs: remove mention of luasnip as built-in source
+  * Revert "fix(menu): defer `update_position` to prevent synchronous
+    window races"
+  * refactor: standardize namespace naming convention
+  * fix(terminal): handle `TermRequest` race condition with pcall
+  * fix(ghost_text): prevent highlight blending
+  * fix(keymap): add missing return in cmdline preset
+  * fix(ghost_text): ensure display across settings
+  * chore: replace utils.flatten with vim.iter
+  * feat: add `force` option to accept completions without visual
+    feedback
+  * fix(cmdline): escape only unquoted args with spaces
+  * fix(menu): defer `update_position` to prevent synchronous window
+    races
+  * fix(menu): always defer menu display through event loop
+  * fix(plugin): respect user LSP capabilities in init
+  * fix(provider): make `enabled` flag respect user config properly
+  * fix(cmdline): handle path-like first arguments in `:!` shellcmd
+  * fix(text_edits): only restore buflisted for non-file buffers
+  * feat(cmdline): enable buffer source for grep commands
+  * chore: add missing comma to appease stylua
+  * fix(menu): add missing loading item properties
+  * Revert "fix(provider): actually respect user overrides for
+    `enabled`"
+  * fix(provider): actually respect user overrides for `enabled`
+  * fix(snippet): handle `$VAR` and `${VAR}` variable forms correctly
+  * fix(cmdline): skip filename modifiers detection when using help
+    command
+  * chore: address diagnostic warnings in menu module
+  * fix(luasnip): only pass `fallback_match` if different from
+    `line_to_cursor`
+  * fix: correct usage of 'e.g.' and 'i.e.' in documentation
+  * fix(cmdline): skip handling command separator during path completion
+  * fix(cmdline): handle `:=expr` for proper Lua expression completion
+
+  [ François Fleur ]
+  * fix: avoid selection race condition with stale context (#2465)
+  * feat(cmdline): support v:lua custom completion (#2350)
+  * fix(provider): respect `min_keyword_length` over global setting
+    (#2354)
+  * fix(ghost_text): handle multibyte chars and improve performance
+    (#2252)
+  * fix(snippets): ensure proper espcaping of special chars (#2239)
+  * fix(snippets): provide `textEdit` field for builtin snippet (#2233)
+  * refactor(path): rework async scan, add `max_entries` limit (#2213)
+  * perf(path): improve async dir scan with chunked callbacks (#2204)
+  * fix: clamp the start and end lines of the range (#2177)
+
+  [ Gabriel Rodrigues de Oliveira ]
+  * fix: include dapui buffers on enable exceptions (#2463)
+
+  [ Aravindhan Pugazhendhi ]
+  * fix: documentation/detail checks on vim.NIL
+
+  [ Trần Đức Nam ]
+  * docs: add `blink-cmp-zellij` community source (#2455)
+
+  [ Laurent Cheylus ]
+  * docs: add support on Windows for aarch64 (#2446)
+  * feat: add aarch64 support on OpenBSD (#2441)
+  * fix(download): check checksums on OpenBSD with sha256 command
+    (#2437)
+  * ci: add job in Release workflow to build binary on OpenBSD/x86_64
+    (#2423)
+  * docs: add list of systems supported for prebuilt binaries (#2422)
+  * ci: in release workflow, fix build on FreeBSD/aarch64 (#2416)
+  * ci: update GH actions (#2413)
+  * fix(download): return error for unknown system_triple (#2392)
+  * feat(health): display OS/Arch for unsupported system_triple (#2389)
+
+  [ saghen ]
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+
+  [ Russ Helder ]
+  * fix(path): expand env vars whose names contain numbers (#2440)
+  * feat(path): expand env vars enclosed in braces (#2439)
+
+  [ Bassam Data ]
+  * fix: reload highlights on color scheme change (#2273)
+
+  [ anonymousgrasshopper ]
+  * fix: disable formatoptions 'a' during completion and wrap text
+    around paragraph if and only if it was set (#2436)
+
+  [ Yiqi Yao ]
+  * fix: restore cursor position after auto-wrap (#2426)
+  * fix: disable auto-wrap during completion to prevent preview undo
+    errors (#2378)
+
+  [ TCP-FINNA ]
+  * docs: clarify Neovim 0.11+ vim.lsp.config note (#2424)
+
+  [ phanium ]
+  * feat(download): support glob in `force_version='v*` (#2408)
+  * fix: don't modify global &iskeyword (#2223)
+
+  [ David Bernheisel ]
+  * docs: add `hex-cmp` plugin for community sources (#2420)
+
+  [ soifou ]
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+
+  [ Yang Shen ]
+  * feat: support FreeBSD aarch64 (#2380)
+
+  [ Hugo ]
+  * feat: upgrade to frizbee 0.8.2, drop nightly rust requirement
+    (#2406)
+
+  [ Qingzhou Yue ]
+  * fix(buffer): discard `fs_stat` check for unmodified buffers (#2398)
+  * perf(buffer): more performant way to calculate the size of a buffer
+    (#2396)
+
+  [ Xinyu Xiang ]
+  * docs: add blink-cmp-copilot-chat community source (#2371)
+
+  [ Simon Ernst ]
+  * fix: don't clear last_char on transient mode changes (#2325)
+
+  [ Anthony ]
+  * docs(recipes): fix lspkind after breaking change (#2358)
+
+  [ becknik ]
+  * docs: add `blink-cmp-luasnip-choice` community source (#2332)
+
+  [ Damian Pomykała ]
+  * fix(nix): specify linker args for the Darwin build (#2335)
+
+  [ James Tien ]
+  * docs: add `vim-plug` installation instructions (#2321)
+
+  [ Sneha De ]
+  * docs: information about how to use `filter_snippets` (#2329)
+
+  [ Cristian Prieto ]
+  * feat: support for FreeBSD x86_64 (#2326)
+
+  [ Mika Vilpas ]
+  * fix: documentation draw() function crashing on unmodifiable buffer
+    (#2319)
+
+  [ kirim ]
+  * fix(signature): enable trigger after show signature manually (#2243)
+
+  [ Henry Hsieh ]
+  * fix(window): make popup windows unmodifiable (#2254)
+
+  [ Daniel ]
+  * feat(keymaps): implemented more detailed descriptions (#2282)
+
+  [ Sandy ]
+  * fix(signature): Update active parameter to use line and col range
+    (#2296)
+
+  [ Paul Heidekrüger ]
+  * docs(recipes): add third recipe for `force` option (#2306)
+
+  [ Mayrom ]
+  * docs: add blink-cmp-dap to community sources (#2302)
+
+  [ fin-w ]
+  * fix: comments (#2297)
+
+  [ Stefan Boca ]
+  * feat(nix): change plugin pname to blink.cmp
+  * docs(config.keymap): update preset mappings to match
+    cmp.keymap.presets (#2221)
+  * docs(snippets): replace old ignored_filetypes with new
+    filter_snippets (#2222)
+
+  [ novenary ]
+  * docs: fix rust-analyzer snippet example (#2289)
+
+  [ Ivan Georgiev ]
+  * fix(usercmd): subcmd completion and error handling (#2276)
+
+  [ Mohammad Hasan ]
+  * fix: ellipsis double width replacement not applied (#2225)
+  * refactor: `Task` type annotation in, add .emmyrc.json/.luarc.json to
+    .gitignore (#2219)
+
+  [ Saghen ]
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+  * docs: update vimdocs
+
+  [ 林玮 (Jade Lin) ]
+  * fix(nix): fix Cargo sandbox builds on Darwin via Fenix update
+    (#2226)
+
+  [ Jack Barnes ]
+  * fix(luasnip): use actual cursor pos for snippet match (#2206)
+
+  [ Felipe Lema ]
+  * fix: stick to vsnip API in vimscript (#2197)
+
+  [ Runz Liu ]
+  * feat(fuzzy): allow setting sort list as a function (#2189)
+
+  [ qw457812 ]
+  * fix: `blink.cmp.KeymapCommand` type annotations (#2180)
+
+  [ Sebastian Lyng Johansen ]
+  * feat: allow string return in keymap (#2144)
+
+  [ lemon ]
+  * use mpack if string.buffer is not available (#2140)
+
+  [ Ahmet Arda Kavakcı ]
+  * docs(recipes): fix mini.icons + lspkind recipe (#2148)
+
+ -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Sat, 04 Apr 2026 22:08:02 -0400
+
 blink.cmp (1.7.0-2) unstable; urgency=medium
 
   * Auto-show documentation
