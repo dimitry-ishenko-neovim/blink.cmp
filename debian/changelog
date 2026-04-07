@@ -1,3 +1,9 @@
+blink.cmp (1.10.2-3) unstable; urgency=medium
+
+  * Add Debian Release workflow
+
+ -- Dimitry Ishenko <dimitry.ishenko@gmail.com>  Tue, 07 Apr 2026 14:48:45 -0400
+
 blink.cmp (1.10.2-2) unstable; urgency=medium
 
   * Fix plugin name
